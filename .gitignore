@@ -1,0 +1,14 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+
+# Logs and secrets
+*.log
+.env
+
+# Only needed if you ever add a build step
+node_modules/

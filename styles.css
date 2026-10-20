@@ -1,0 +1,1322 @@
+/* ================================================================
+   JESSE KIMSUPASUK — PORTFOLIO STYLESHEET
+   ================================================================
+   Structure:
+   1.  CSS Variables & Reset
+   2.  Typography
+   3.  Utility Classes
+   4.  Navigation
+   5.  Hero Section
+   6.  Section Shared Styles
+   7.  About Section
+   8.  Experience / Timeline
+   9.  Projects Grid & Cards
+   10. Skills Section
+   11. Education Section
+   12. Extracurriculars Section (currently unused: section is commented out in index.html)
+   13. Contact / Footer
+   14. Modals
+       - Overlay, panel, close button
+       - Modal body content (text, links, bullets, tags)
+       - Gallery layouts for photos & videos (1–5 items; stacked on mobile)
+   15. Animations & Scroll Reveals
+   16. Responsive (Mobile)
+================================================================ */
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Roboto:wght@400;500;600;700&display=swap');
+
+/* ── 1. CSS VARIABLES & RESET ─────────────────────────────────── */
+:root {
+  /* Colours */
+  --white:       #FFFFFF;
+  --off-white:   #F8F7F5;
+  --black:       #0D0D0D;
+  --grey-dark:   #2A2A2A;
+  --grey-mid:    #5A5A5A;
+  --grey-light:  #E8E6E1;
+  --pink:       #F9A8D4;
+  --pink-light: #FCE7F3;
+  --pink-dark: #EC4899;
+
+  /* Typography */
+  --font-serif:  'Montserrat', system-ui, sans-serif;
+  --font-sans:   'Roboto', system-ui, sans-serif;
+
+  /* Spacing */
+  --nav-h:       64px;
+  --section-py:  96px;
+  --container:   1120px;
+  --zoom:        1;       /* whole-site zoom: 1 = off. Try 0.84 for a 16% zoom-out. Don't delete or comment this out. */
+  --gap:         32px;
+
+  /* Transitions */
+  --ease:        cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  zoom: var(--zoom, 1);
+  scroll-behavior: smooth;
+  font-size: 16px;
+  min-height: 100%;
+  overflow-x: hidden;
+  background: var(--black);
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--white);
+  color: var(--black);
+  line-height: 1.6;
+  overflow-x: hidden;
+  font-weight: 400;
+
+  min-height: calc(100vh / var(--zoom, 1));  /* vh is scaled by zoom, so divide it back out */
+}
+
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+
+/* ── 2. TYPOGRAPHY ────────────────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 600; /* Bold but not too heavy */
+  line-height: 1.1;
+}
+
+p { line-height: 1.75; }
+
+
+/* ── 3. UTILITY CLASSES ───────────────────────────────────────── */
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Primary CTA button */
+.btn-primary {
+  display: inline-block;
+  padding: 14px 36px;
+  background: var(--pink);
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  transition: background 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.btn-primary:hover {
+  background: var(--pink-dark);
+  transform: translateY(-2px);
+}
+
+/* Section headings */
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  margin-bottom: 12px;
+  position: relative;
+  display: inline-block;
+}
+/* Pink underline accent on section titles */
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--pink);
+}
+
+.section-sub {
+  color: var(--grey-mid);
+  font-size: 0.95rem;
+  margin-top: 20px;
+  margin-bottom: 48px;
+}
+
+
+/* ── 4. NAVIGATION ────────────────────────────────────────────── */
+#navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--grey-light);
+  transition: box-shadow 0.3s;
+}
+#navbar.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.08); }
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-h);
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Logo / monogram */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-logo img {
+  height: 40px;
+  width: 40px;
+  display: block;
+}
+
+/* Desktop nav links */
+.nav-links {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.nav-links a {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--grey-dark);
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  background: var(--pink);
+  transform: scaleX(0);
+  transition: transform 0.2s var(--ease);
+}
+.nav-links a:hover { color: var(--pink); }
+.nav-links a:hover::after,
+.nav-links a.active::after { transform: scaleX(1); }
+.nav-links a.active { color: var(--pink); }
+
+/* Hamburger — hidden on desktop */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--black);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+/* Mobile dropdown */
+.nav-mobile {
+  display: none;
+  flex-direction: column;
+  padding: 12px 24px 20px;
+  border-top: 1px solid var(--grey-light);
+  gap: 4px;
+}
+.nav-mobile a {
+  display: block;
+  padding: 10px 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--grey-dark);
+  border-bottom: 1px solid var(--grey-light);
+}
+.nav-mobile.open { display: flex; }
+
+
+/* ── 5. HERO SECTION ──────────────────────────────────────────── */
+#hero {
+  min-height: calc(100vh / var(--zoom, 1));
+  display: flex;
+  align-items: center;
+  padding: calc(var(--nav-h) + 48px) 24px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle background grid texture */
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grey-light) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grey-light) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.hero-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 20px;
+  animation: fadeUp 0.8s var(--ease) both;
+}
+
+.hero-name {
+  font-size: clamp(4rem, 12vw, 9rem);
+  line-height: 0.95;
+  color: var(--black);
+  margin-bottom: 32px;
+  animation: fadeUp 0.8s 0.1s var(--ease) both;
+}
+
+/* Container for name and principles side by side */
+.hero-name-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+  margin-bottom: 32px;
+}
+
+.hero-principles {
+  margin-bottom: 40px;
+}
+
+.hero-principles .principles-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 16px;
+}
+
+.hero-principles blockquote {
+  border-left: 3px solid var(--pink);
+  padding-left: 16px;
+}
+
+.hero-principles blockquote p {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 6px;
+}
+
+.hero-principles blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.hero-tagline {
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
+  color: var(--grey-mid);
+  font-weight: 400;
+  max-width: 900px;
+  margin-bottom: 40px;
+  line-height: 1.8;
+  animation: fadeUp 0.8s 0.2s var(--ease) both;
+}
+
+/* Keeps each role together so wrapping happens between roles, not mid-role */
+.hero-role { display: inline-block; }
+
+/* Social icon row */
+.hero-links {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 48px;
+  animation: fadeUp 0.8s 0.3s var(--ease) both;
+}
+.hero-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid var(--grey-light);
+  border-radius: 50%;
+  color: var(--grey-dark);
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+}
+.hero-icon-link svg { width: 18px; height: 18px; }
+.hero-icon-link:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+  transform: translateY(-3px);
+}
+
+/* CTA button animation */
+#hero .btn-primary { animation: fadeUp 0.8s 0.4s var(--ease) both; }
+
+/* Decorative vertical rule on the right */
+.hero-rule {
+  display: none;
+}
+
+
+/* ── 6. SECTION SHARED STYLES ─────────────────────────────────── */
+.section { padding: var(--section-py) 0; }
+
+/* Alternating section background for visual rhythm */
+.section-alt { background: var(--off-white); }
+
+
+/* ── 7. ABOUT SECTION ─────────────────────────────────────────── */
+
+/* Fill the whole screen with About, content vertically centred.
+   Nav links scroll the section to (nav height + 16px) from the top,
+   so subtract that to make it end exactly at the bottom of the screen. */
+#about {
+  min-height: calc(100vh / var(--zoom, 1) - var(--nav-h) - 16px);
+  display: flex;
+  align-items: center;
+}
+#about .container { width: 100%; text-align: center; }  /* centres the title */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;   /* single column while the photo is commented out */
+  max-width: 760px;             /* comfortable reading width */
+  margin: 56px auto 0;          /* centres the bio block on the page */
+  align-items: start;
+}
+
+.about-principles {
+  position: sticky;
+  top: calc(var(--nav-h) + 32px);
+}
+
+.principles-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 12px;
+}
+
+blockquote {
+  border-left: 3px solid var(--pink);
+  padding-left: 24px;
+}
+blockquote p {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--black);
+  margin-bottom: 6px;
+}
+
+.about-bio p {
+  font-size: 1.05rem;
+  color: var(--grey-dark);
+  margin-bottom: 20px;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.about-photo {
+  width: 450px;
+  height: 450px;
+  margin-top: 0;
+  border-radius: 8px;
+  display: block;
+  object-fit: cover;
+}
+
+
+/* ── 8. EXPERIENCE / TIMELINE ─────────────────────────────────── */
+.timeline {
+  margin-top: 56px;
+  position: relative;
+  padding-left: 32px;
+}
+
+/* Continuous vertical pink line */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--pink), var(--pink-light));
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 56px;
+}
+.timeline-item:last-child { margin-bottom: 0; }
+
+/* Pink dot marker */
+.timeline-marker {
+  position: absolute;
+  left: -32px;
+  top: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2.5px solid var(--pink);
+  z-index: 1;
+}
+
+.timeline-content {
+  background: var(--white);
+  border: 1px solid var(--grey-light);
+  border-radius: 8px;
+  padding: 28px 32px;
+  transition: box-shadow 0.2s;
+}
+.timeline-content:hover { box-shadow: 0 4px 24px rgba(109,40,217,0.08); }
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.timeline-role {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  color: var(--black);
+  margin-bottom: 4px;
+}
+.timeline-company {
+  font-size: 1.05rem;
+  color: var(--pink);
+  font-weight: 700;
+}
+.timeline-dates {
+  font-size: 1rem;
+  color: var(--grey-mid);
+  font-weight: 500;
+  white-space: nowrap;
+  padding-top: 4px;
+}
+
+.timeline-bullets {
+  list-style: disc;
+  padding-left: 20px;
+}
+.timeline-bullets li {
+  font-size: 0.95rem;
+  color: var(--grey-dark);
+  margin-bottom: 8px;
+  line-height: 1.65;
+}
+
+
+/* ── 9. PROJECTS GRID & CARDS ─────────────────────────────────── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+  margin-top: 8px;
+}
+
+/* Card base */
+.project-card {
+  background: var(--white);
+  border: 1px solid var(--grey-light);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  outline: none;
+}
+.project-card:hover,
+.project-card:focus-visible {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(109,40,217,0.12);
+}
+
+/* Pink top accent bar */
+.card-accent {
+  height: 4px;
+  background: var(--pink);
+}
+
+.card-body {
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.card-logo {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  margin: 0;
+  padding: 0;
+  background: var(--white);
+}
+.card-body > h3,
+.card-body > .card-company,
+.card-body > .card-desc,
+.card-body > .card-tags {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+.card-body > h3 {
+  margin-top: 24px;
+}
+.card-body > .card-tags {
+  margin-bottom: 24px;
+}
+.card-body h3 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  margin-bottom: 4px;
+}
+.card-company {
+  font-size: 0.78rem;
+  color: var(--pink);
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: 0.02em;
+}
+.card-desc {
+  font-size: 0.88rem;
+  color: var(--grey-mid);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+/* Tech tags on card face */
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.card-tags span {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  background: var(--pink-light);
+  color: var(--pink-dark);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* Card footer with CTA */
+.card-footer {
+  padding: 14px 24px;
+  border-top: 1px solid var(--grey-light);
+}
+.card-cta {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--pink);
+  letter-spacing: 0.03em;
+  transition: letter-spacing 0.2s;
+}
+.project-card:hover .card-cta,
+.extracurr-card:hover .card-cta {
+  letter-spacing: 0.08em;
+}
+
+
+/* ── 10. SKILLS SECTION ───────────────────────────────────────── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);   /* 2 x 2: four equal boxes */
+  gap: var(--gap);
+  margin-top: 56px;
+}
+
+.skill-group {
+  background: var(--white);
+  border: 1px solid var(--grey-light);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.skill-group-title {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 16px;
+}
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.skill-tags span {
+  font-size: 0.82rem;
+  font-weight: 500;
+  background: var(--off-white);
+  color: var(--grey-dark);
+  padding: 5px 13px;
+  border-radius: 4px;
+  border: 1px solid var(--grey-light);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.skill-tags span:hover {
+  background: var(--pink-light);
+  color: var(--pink-dark);
+  border-color: var(--pink-light);
+}
+
+
+/* ── 11. EDUCATION SECTION ────────────────────────────────────── */
+.education-list {
+  margin-top: 56px;
+}
+
+.edu-entry {
+  display: flex;
+  gap: 24px;
+  padding: 32px 0;
+  border-top: 1px solid var(--grey-light);
+}
+.edu-entry:first-child { border-top: none; padding-top: 0; }
+.edu-entry:last-child  { padding-bottom: 0; }
+
+/* Logo column — wide enough for a full, uncropped logo. The image keeps its
+   own proportions (height: auto), so nothing is ever cut off. */
+.edu-logo {
+  flex: 0 0 140px;
+  width: 140px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.edu-logo img {
+  width: 100%;
+  height: auto;
+  max-height: 130px;
+  object-fit: contain;   /* never crop */
+}
+
+/* Pink initials tile, used until a real logo image is added */
+.edu-initials {
+  width: 96px;
+  height: 96px;
+  border-radius: 16px;
+  background: var(--pink-dark);
+  color: var(--white);
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.6rem;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edu-content { flex: 1; min-width: 0; }
+
+.edu-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+.edu-institution {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.edu-location {
+  color: var(--grey-mid);
+  font-weight: 400;
+}
+.edu-date {
+  font-size: 0.95rem;
+  color: var(--grey-mid);
+  white-space: nowrap;
+}
+
+.edu-degree {
+  font-size: 1.05rem;
+  color: var(--grey-dark);
+  margin: 6px 0 10px;
+}
+.edu-line {
+  font-size: 0.92rem;
+  color: var(--grey-mid);
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.edu-line strong { color: var(--grey-dark); font-weight: 600; }
+.edu-activities { margin-top: 16px; }
+
+/* Small uppercase label above a row of chips */
+.edu-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--grey-mid);
+  margin: 14px 0 8px;
+}
+.edu-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.edu-chip {
+  background: var(--pink-light);
+  color: var(--pink-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+.edu-chip b {
+  color: var(--pink-dark);
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+
+/* ── 12. EXTRACURRICULARS SECTION ─────────────────────────────── */
+.extracurr-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+  margin-top: 8px;
+}
+
+.extracurr-card {
+  border: 1px solid var(--grey-light);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--white);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  outline: none;
+}
+.extracurr-card:hover,
+.extracurr-card:focus-visible {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(109,40,217,0.12);
+}
+
+/* Photo area — replace placeholder with <img> when ready */
+.extracurr-photo-placeholder {
+  height: 200px;
+  background: var(--grey-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.extracurr-photo-placeholder span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey-mid);
+}
+/* When you add a real img tag, style it like this: */
+.extracurr-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.extracurr-info {
+  padding: 20px 24px;
+  display: block;
+}
+
+.extracurr-info h3 {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+}
+
+.extracurr-role {
+  font-size: 1.05rem;
+  color: var(--pink);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.extracurr-info .card-cta {
+  display: inline-block;
+  margin-top: 4px;
+}
+
+/* Extracurricular modal main photo */
+#extracurr-modal .modal-logo {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 12px;
+  border: 1px solid var(--grey-light);
+  background: var(--off-white);
+  margin-bottom: 24px;
+}
+
+/* Extracurricular modal gallery */
+#extracurr-modal .modal-gallery {
+  margin-top: 28px;
+}
+
+
+/* ── 13. CONTACT / FOOTER ─────────────────────────────────────── */
+footer#contact {
+  background: var(--black);
+  color: var(--white);
+  padding: 80px 0 48px;
+  margin-top: auto;
+}
+
+.footer-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.footer-sub {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 48px;
+}
+
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 64px;
+}
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.75);
+  padding: 12px 20px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  transition: border-color 0.2s, color 0.2s;
+}
+.contact-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+.contact-item:hover {
+  border-color: var(--pink);
+  color: var(--white);
+}
+
+.footer-copy {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.25);
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+
+/* ── 14. MODALS ───────────────────────────────────────────────── */
+.modal {
+  display: none; /* shown via JS by adding class .modal-open */
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+.modal.modal-open { display: flex; }
+
+/* Dark semi-transparent backdrop */
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(13,13,13,0.65);
+  backdrop-filter: blur(4px);
+}
+
+/* Modal panel */
+.modal-panel {
+  position: relative;
+  z-index: 1;
+  background: var(--white);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 720px;
+  max-height: calc(85vh / var(--zoom, 1));
+  overflow-y: auto;
+  padding: 48px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.25);
+  animation: modalIn 0.35s var(--ease) both;
+}
+
+/* Close button */
+.modal-close {
+  position: sticky;
+  top: 0;
+  float: right;
+  font-size: 1.1rem;
+  color: var(--grey-mid);
+  background: var(--off-white);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  transition: background 0.2s, color 0.2s;
+}
+.modal-close:hover { background: var(--pink-light); color: var(--pink); }
+
+/* Modal body content (injected by JS) */
+.modal-body h2 {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  margin-bottom: 4px;
+  clear: both;
+}
+.modal-logo {
+  width: 100%;
+  max-width: none;
+  height: 260px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  margin-bottom: 24px;
+  background: var(--white);
+}
+/* Real photos (jpg/jpeg, not logos) fill the full modal width.
+   Logos, renders and schematics keep object-fit: contain above. */
+#project-modal .modal-logo:is([src$=".jpg" i], [src$=".jpeg" i], [src*="cover" i]):not([src*="logo" i]) {
+  height: 360px;
+  object-fit: cover;
+  object-position: center 30%;
+  border-radius: 12px;
+}
+.modal-body .modal-company {
+  font-size: 1.05rem;
+  color: var(--pink);
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+.modal-body .modal-desc {
+  font-size: 0.95rem;
+  color: var(--grey-dark);
+  line-height: 1.75;
+  margin-bottom: 24px;
+}
+.modal-body .modal-outcome-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 8px;
+}
+.modal-body .modal-outcome {
+  font-size: 0.95rem;
+  color: var(--grey-dark);
+  margin-bottom: 24px;
+}
+.modal-body .modal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.modal-body .modal-tags span {
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: var(--pink-light);
+  color: var(--pink-dark);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+/* GitHub link inside modal */
+.modal-body .modal-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--pink);
+  border: 1.5px solid var(--pink);
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin-bottom: 24px;
+  transition: background 0.2s, color 0.2s;
+}
+.modal-body .modal-github:hover {
+  background: var(--pink);
+  color: var(--white);
+}
+/* Links row inside modal (GitHub + Documentation) */
+.modal-body .modal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.modal-body .modal-links .modal-github,
+.modal-body .modal-links .modal-documentation,
+.modal-body .modal-links .modal-flightlog {
+  margin-bottom: 0;
+}
+/* Documentation + flight log links inside modal */
+.modal-body .modal-documentation,
+.modal-body .modal-flightlog {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--pink);
+  border: 1.5px solid var(--pink);
+  padding: 10px 20px;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+.modal-body .modal-documentation:hover,
+.modal-body .modal-flightlog:hover {
+  background: var(--pink);
+  color: var(--white);
+}
+/* Project gallery inside modal (photos and videos share .modal-gallery-img) */
+.modal-body .modal-gallery {
+  display: grid;
+  gap: 16px;
+  margin: 24px 0 32px;
+}
+
+/* Default photo / video styling */
+.modal-body .modal-gallery-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid var(--grey-light);
+  background: var(--off-white);
+}
+
+/* One photo: render full aspect ratio */
+.modal-body .modal-gallery-1 {
+  grid-template-columns: 1fr;
+}
+
+.modal-body .modal-gallery-1 .modal-gallery-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+/* Two photos: side by side */
+.modal-body .modal-gallery-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.modal-body .modal-gallery-2 .modal-gallery-img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+/* Three photos: first two side by side, third full-width underneath */
+.modal-body .modal-gallery-3 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.modal-body .modal-gallery-3 .modal-gallery-img:nth-child(1),
+.modal-body .modal-gallery-3 .modal-gallery-img:nth-child(2) {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.modal-body .modal-gallery-3 .modal-gallery-img:nth-child(3) {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+/* Four photos: 2x2 grid */
+.modal-body .modal-gallery-4 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.modal-body .modal-gallery-4 .modal-gallery-img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+/* Five photos: two rows of two side by side, fifth full-width underneath */
+.modal-body .modal-gallery-5 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.modal-body .modal-gallery-5 .modal-gallery-img:nth-child(-n+4) {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.modal-body .modal-gallery-5 .modal-gallery-img:nth-child(5) {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+/* Mobile: stack all photos */
+@media (max-width: 600px) {
+  .edu-entry { gap: 16px; }
+  .edu-logo { flex-basis: 88px; width: 88px; }
+  .edu-initials { width: 56px; height: 56px; border-radius: 12px; font-size: 1.1rem; }
+
+  .modal-body .modal-gallery-2,
+  .modal-body .modal-gallery-3,
+  .modal-body .modal-gallery-4,
+  .modal-body .modal-gallery-5 {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-body .modal-gallery-2 .modal-gallery-img,
+  .modal-body .modal-gallery-3 .modal-gallery-img,
+  .modal-body .modal-gallery-4 .modal-gallery-img,
+  .modal-body .modal-gallery-5 .modal-gallery-img {
+    grid-column: auto;
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
+  }
+}
+/* Extracurriculars modal bullet list */
+.modal-body .modal-bullets {
+  list-style: disc;
+  padding-left: 20px;
+  margin-bottom: 24px;
+}
+.modal-body .modal-bullets li {
+  font-size: 0.95rem;
+  color: var(--grey-dark);
+  margin-bottom: 10px;
+  line-height: 1.65;
+}
+
+
+/* ── 15. ANIMATIONS & SCROLL REVEALS ─────────────────────────── */
+
+/* Hero staggered entry */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Modal pop-in */
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Scroll-reveal: elements start hidden, JS adds .visible */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ── 16. RESPONSIVE (MOBILE) ──────────────────────────────────── */
+@media (max-width: 900px) {
+  :root { --section-py: 64px; }
+
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+
+  .hero-rule { display: none; }
+
+  .hero-name-section {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .about-principles { 
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .about-photo {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .projects-grid,
+  .skills-grid,
+  .extracurr-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+@media (max-width: 600px) {
+  .projects-grid,
+  .skills-grid,
+  .extracurr-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-panel { padding: 28px 20px; }
+
+  .contact-links { flex-direction: column; }
+
+  .timeline { padding-left: 20px; }
+  .timeline-marker { left: -20px; }
+  .timeline-header { flex-direction: column; gap: 4px; }
+  .timeline-content { padding: 20px; }
+}
